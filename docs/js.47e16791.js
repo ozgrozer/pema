@@ -18966,6 +18966,11 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
+    key: 'openNewPersonModal',
+    value: function openNewPersonModal() {
+      console.log('open modal');
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -18992,8 +18997,17 @@ var App = function (_React$Component) {
               { className: 'card-header' },
               _react2.default.createElement(
                 'b',
-                null,
+                { className: 'float-left' },
                 'Persons'
+              ),
+              _react2.default.createElement(
+                'button',
+                {
+                  id: 'openNewPersonModal',
+                  className: 'float-right btn btn-primary btn-sm',
+                  onClick: this.openNewPersonModal.bind(this)
+                },
+                'New'
               )
             ),
             _react2.default.createElement(
@@ -19068,7 +19082,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '53741' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '53802' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 

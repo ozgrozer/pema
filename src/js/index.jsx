@@ -9,6 +9,10 @@ class App extends React.Component {
     this.state = {}
   }
 
+  openNewPersonModal () {
+    console.log('open modal')
+  }
+
   render () {
     return (
       <div className='container'>
@@ -19,7 +23,14 @@ class App extends React.Component {
 
           <div className='card'>
             <div className='card-header'>
-              <b>Persons</b>
+              <b className='float-left'>Persons</b>
+              <button
+                id='openNewPersonModal'
+                className='float-right btn btn-primary btn-sm'
+                onClick={this.openNewPersonModal.bind(this)}
+              >
+                New
+              </button>
             </div>
 
             <div className='card-body'>
