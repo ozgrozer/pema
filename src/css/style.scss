@@ -1,4 +1,5 @@
 @import './bootstrapComponents';
+@import './../../lib/fontastic/styles';
 
 /* Breakpoints (Bootstrap defaults) */
 $xsBreakpoint: map-get($grid-breakpoints, 'sm') - 1;
@@ -7,10 +8,9 @@ $mdBreakpoint: map-get($grid-breakpoints, 'md');
 $lgBreakpoint: map-get($grid-breakpoints, 'lg');
 $xlBreakpoint: map-get($grid-breakpoints, 'xl');
 
-body {
-  background-color: #fff;
+a {
+  text-decoration: none !important;
 }
-
 button {
   outline: none !important;
   cursor: pointer !important;
@@ -23,9 +23,9 @@ input {
 #githubIcon {
   margin-left: 10px;
 
-  svg {
-    height: 18px;
-    fill: $gray-900;
+  .icon {
+    font-size: 20px;
+    color: $gray-900;
   }
 }
 
@@ -40,13 +40,21 @@ input {
 .card {
   margin-top: 50px;
 
+  .card-header {
+    #gearIcon {
+      cursor: pointer;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+
+    #openNewPersonModal {
+      height: 24px;
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+  }
+
   .card-body {
     padding: 0;
   }
-}
-
-#openNewPersonModal {
-  height: 24px;
-  font-size: 9px;
-  text-transform: uppercase;
 }

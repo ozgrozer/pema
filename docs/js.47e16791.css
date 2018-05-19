@@ -4206,9 +4206,46 @@ button.close {
     .collapsing {
       transition: none; } }
 
+@font-face {
+  font-family: "pema";
+  src: url("pema.dbdd2023.eot");
+  src: url("pema.dbdd2023.eot?#iefix") format("embedded-opentype"), url("pema.9e1f4e50.woff") format("woff"), url("pema.cf8b7442.ttf") format("truetype"), url("pema.abcde7b9.svg#pema") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[data-icon]:before {
+  font-family: "pema" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "pema" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-social-octocat:before {
+  content: "\61"; }
+
+.icon-gear-b:before {
+  content: "\62"; }
+
 /* Breakpoints (Bootstrap defaults) */
-body {
-  background-color: #fff; }
+a {
+  text-decoration: none !important; }
 
 button {
   outline: none !important;
@@ -4220,9 +4257,9 @@ input {
 
 #githubIcon {
   margin-left: 10px; }
-  #githubIcon svg {
-    height: 18px;
-    fill: #212529; }
+  #githubIcon .icon {
+    font-size: 20px;
+    color: #212529; }
 
 .container2 {
   max-width: 500px;
@@ -4233,10 +4270,13 @@ input {
 
 .card {
   margin-top: 50px; }
+  .card .card-header #gearIcon {
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 5px; }
+  .card .card-header #openNewPersonModal {
+    height: 24px;
+    font-size: 9px;
+    text-transform: uppercase; }
   .card .card-body {
     padding: 0; }
-
-#openNewPersonModal {
-  height: 24px;
-  font-size: 9px;
-  text-transform: uppercase; }
