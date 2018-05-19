@@ -4275,8 +4275,10 @@ input {
     font-size: 12px;
     margin-left: 5px; }
   .card .card-header #openNewPersonModal {
-    height: 24px;
-    font-size: 9px;
-    text-transform: uppercase; }
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding-left: 30px;
+    padding-right: 30px; }
   .card .card-body {
     padding: 0; }

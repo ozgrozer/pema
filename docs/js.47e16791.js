@@ -51691,7 +51691,7 @@ var App = function (_React$Component) {
                 'button',
                 {
                   id: 'openNewPersonModal',
-                  className: 'float-right btn btn-primary btn-sm',
+                  className: 'float-right btn btn-primary btn-lg',
                   onClick: this.toggleNewPersonModal.bind(this)
                 },
                 'New'
