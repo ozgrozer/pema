@@ -1,0 +1,33 @@
+@import './bootstrapComponents';
+
+/* Breakpoints (Bootstrap defaults) */
+$xsBreakpoint: map-get($grid-breakpoints, 'sm') - 1;
+$smBreakpoint: map-get($grid-breakpoints, 'sm');
+$mdBreakpoint: map-get($grid-breakpoints, 'md');
+$lgBreakpoint: map-get($grid-breakpoints, 'lg');
+$xlBreakpoint: map-get($grid-breakpoints, 'xl');
+
+body {
+  background-color: #fff;
+}
+
+.container2 {
+  max-width: 500px;
+  margin: 100px auto;
+  @media (max-width: #{$xsBreakpoint}) {
+    margin: 50px auto;
+  }
+}
+
+.card {
+  margin-top: 50px;
+
+  .card-body {
+    padding: 0;
+
+    button {
+      cursor: pointer;
+      outline: none;
+    }
+  }
+}
