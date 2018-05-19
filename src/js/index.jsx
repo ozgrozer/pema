@@ -99,7 +99,7 @@ class App extends React.Component {
                         type='text'
                         id='fullname'
                         name='fullname'
-                        className='form-control'
+                        className='form-control form-control-lg'
                         onChange={this.handleInput.bind(this)}
                         value={this.state.newPersonFormItems.fullname || ''}
                       />
@@ -113,7 +113,7 @@ class App extends React.Component {
                         type='text'
                         id='age'
                         name='age'
-                        className='form-control'
+                        className='form-control form-control-lg'
                         onChange={this.handleInput.bind(this)}
                         value={this.state.newPersonFormItems.age || ''}
                       />
@@ -122,7 +122,7 @@ class App extends React.Component {
                   </ModalBody>
 
                   <ModalFooter>
-                    <button className='btn btn-primary btn-block'>Add</button>
+                    <button className='btn btn-primary btn-lg btn-block'>Add</button>
                   </ModalFooter>
                 </form>
               </Modal>

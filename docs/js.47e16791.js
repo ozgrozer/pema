@@ -51729,7 +51729,7 @@ var App = function (_React$Component) {
                         type: 'text',
                         id: 'fullname',
                         name: 'fullname',
-                        className: 'form-control',
+                        className: 'form-control form-control-lg',
                         onChange: this.handleInput.bind(this),
                         value: this.state.newPersonFormItems.fullname || ''
                       }),
@@ -51752,7 +51752,7 @@ var App = function (_React$Component) {
                         type: 'text',
                         id: 'age',
                         name: 'age',
-                        className: 'form-control',
+                        className: 'form-control form-control-lg',
                         onChange: this.handleInput.bind(this),
                         value: this.state.newPersonFormItems.age || ''
                       }),
@@ -51768,7 +51768,7 @@ var App = function (_React$Component) {
                     null,
                     _react2.default.createElement(
                       'button',
-                      { className: 'btn btn-primary btn-block' },
+                      { className: 'btn btn-primary btn-lg btn-block' },
                       'Add'
                     )
                   )
