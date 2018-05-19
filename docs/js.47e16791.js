@@ -28655,17 +28655,48 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
     _this.state = {
-      modal: false
+      newPersonModal: false,
+      newPersonFormItems: {},
+      personDetailsModal: false,
+      personDetailsFormItems: {}
     };
     return _this;
   }
 
   _createClass(App, [{
-    key: 'toggleNewPersonModel',
-    value: function toggleNewPersonModel() {
+    key: 'handleInput',
+    value: function handleInput(e) {
+      var item = e.target;
+      var newPersonFormItems = this.state.newPersonFormItems;
+      newPersonFormItems[item.name] = item.value;
+      this.setState({ newPersonFormItems: newPersonFormItems });
+    }
+  }, {
+    key: 'toggleNewPersonModal',
+    value: function toggleNewPersonModal() {
       this.setState({
-        modal: !this.state.modal
+        newPersonModal: !this.state.newPersonModal
       });
+    }
+  }, {
+    key: 'addNewPerson',
+    value: function addNewPerson(e) {
+      e.preventDefault();
+      var form = e.target;
+      form.classList.add('was-validated');
+
+      if (form.checkValidity()) {
+        form.classList.remove('was-validated');
+
+        console.log('do something');
+        console.log(this.state.newPersonFormItems);
+        this.setState({
+          newPersonModal: false,
+          newPersonFormItems: {}
+        });
+      } else {
+        form.classList.add('was-validated');
+      }
     }
   }, {
     key: 'render',
@@ -28711,39 +28742,85 @@ var App = function (_React$Component) {
                 {
                   id: 'openNewPersonModal',
                   className: 'float-right btn btn-primary btn-sm',
-                  onClick: this.toggleNewPersonModel.bind(this)
+                  onClick: this.toggleNewPersonModal.bind(this)
                 },
                 'New'
               ),
               _react2.default.createElement(
                 _reactstrap.Modal,
                 {
-                  isOpen: this.state.modal,
-                  toggle: this.toggleNewPersonModel.bind(this),
+                  isOpen: this.state.newPersonModal,
+                  toggle: this.toggleNewPersonModal.bind(this),
                   className: this.props.className
                 },
                 _react2.default.createElement(
-                  _reactstrap.ModalHeader,
-                  {
-                    toggle: this.toggleNewPersonModel.bind(this)
-                  },
-                  'New Person'
-                ),
-                _react2.default.createElement(
-                  _reactstrap.ModalBody,
-                  null,
-                  'modal body'
-                ),
-                _react2.default.createElement(
-                  _reactstrap.ModalFooter,
-                  null,
+                  'form',
+                  { noValidate: true, onSubmit: this.addNewPerson.bind(this) },
                   _react2.default.createElement(
-                    'button',
+                    _reactstrap.ModalHeader,
                     {
-                      className: 'btn btn-primary',
-                      onClick: this.toggleNewPersonModel.bind(this)
+                      toggle: this.toggleNewPersonModal.bind(this)
                     },
-                    '\xA0 Add \xA0'
+                    'New Person'
+                  ),
+                  _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    null,
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group' },
+                      _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'fullname' },
+                        'Fullname'
+                      ),
+                      _react2.default.createElement('input', {
+                        required: true,
+                        type: 'text',
+                        id: 'fullname',
+                        name: 'fullname',
+                        className: 'form-control',
+                        onChange: this.handleInput.bind(this),
+                        value: this.state.newPersonFormItems.fullname || ''
+                      }),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'invalid-feedback' },
+                        'Required field'
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      null,
+                      _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'age' },
+                        'Age'
+                      ),
+                      _react2.default.createElement('input', {
+                        required: true,
+                        type: 'text',
+                        id: 'age',
+                        name: 'age',
+                        className: 'form-control',
+                        onChange: this.handleInput.bind(this),
+                        value: this.state.newPersonFormItems.age || ''
+                      }),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'invalid-feedback' },
+                        'Required field'
+                      )
+                    )
+                  ),
+                  _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                      'button',
+                      { className: 'btn btn-primary btn-block' },
+                      'Add'
+                    )
                   )
                 )
               )

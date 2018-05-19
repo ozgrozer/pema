@@ -8,14 +8,43 @@ class App extends React.Component {
   constructor () {
     super()
     this.state = {
-      modal: false
+      newPersonModal: false,
+      newPersonFormItems: {},
+      personDetailsModal: false,
+      personDetailsFormItems: {}
     }
   }
 
-  toggleNewPersonModel () {
+  handleInput (e) {
+    const item = e.target
+    const newPersonFormItems = this.state.newPersonFormItems
+    newPersonFormItems[item.name] = item.value
+    this.setState({ newPersonFormItems })
+  }
+
+  toggleNewPersonModal () {
     this.setState({
-      modal: !this.state.modal
+      newPersonModal: !this.state.newPersonModal
     })
+  }
+
+  addNewPerson (e) {
+    e.preventDefault()
+    const form = e.target
+    form.classList.add('was-validated')
+
+    if (form.checkValidity()) {
+      form.classList.remove('was-validated')
+
+      console.log('do something')
+      console.log(this.state.newPersonFormItems)
+      this.setState({
+        newPersonModal: false,
+        newPersonFormItems: {}
+      })
+    } else {
+      form.classList.add('was-validated')
+    }
   }
 
   render () {
@@ -40,34 +69,57 @@ class App extends React.Component {
               <button
                 id='openNewPersonModal'
                 className='float-right btn btn-primary btn-sm'
-                onClick={this.toggleNewPersonModel.bind(this)}
+                onClick={this.toggleNewPersonModal.bind(this)}
               >
                 New
               </button>
 
               <Modal
-                isOpen={this.state.modal}
-                toggle={this.toggleNewPersonModel.bind(this)}
+                isOpen={this.state.newPersonModal}
+                toggle={this.toggleNewPersonModal.bind(this)}
                 className={this.props.className}
               >
-                <ModalHeader
-                  toggle={this.toggleNewPersonModel.bind(this)}
-                >
-                  New Person
-                </ModalHeader>
-
-                <ModalBody>
-                  modal body
-                </ModalBody>
-
-                <ModalFooter>
-                  <button
-                    className='btn btn-primary'
-                    onClick={this.toggleNewPersonModel.bind(this)}
+                <form noValidate onSubmit={this.addNewPerson.bind(this)}>
+                  <ModalHeader
+                    toggle={this.toggleNewPersonModal.bind(this)}
                   >
-                    &nbsp; Add &nbsp;
-                  </button>
-                </ModalFooter>
+                    New Person
+                  </ModalHeader>
+
+                  <ModalBody>
+                    <div className='form-group'>
+                      <label htmlFor='fullname'>Fullname</label>
+                      <input
+                        required
+                        type='text'
+                        id='fullname'
+                        name='fullname'
+                        className='form-control'
+                        onChange={this.handleInput.bind(this)}
+                        value={this.state.newPersonFormItems.fullname || ''}
+                      />
+                      <div className='invalid-feedback'>Required field</div>
+                    </div>
+
+                    <div>
+                      <label htmlFor='age'>Age</label>
+                      <input
+                        required
+                        type='text'
+                        id='age'
+                        name='age'
+                        className='form-control'
+                        onChange={this.handleInput.bind(this)}
+                        value={this.state.newPersonFormItems.age || ''}
+                      />
+                      <div className='invalid-feedback'>Required field</div>
+                    </div>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <button className='btn btn-primary btn-block'>Add</button>
+                  </ModalFooter>
+                </form>
               </Modal>
             </div>
 
