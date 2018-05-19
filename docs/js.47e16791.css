@@ -4215,6 +4215,12 @@ button {
   cursor: pointer !important;
   box-shadow: none !important; }
 
+#githubIcon {
+  margin-left: 10px; }
+  #githubIcon svg {
+    height: 18px;
+    fill: #212529; }
+
 .container2 {
   max-width: 500px;
   margin: 100px auto; }

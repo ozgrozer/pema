@@ -17,6 +17,15 @@ button {
   box-shadow: none !important;
 }
 
+#githubIcon {
+  margin-left: 10px;
+
+  svg {
+    height: 18px;
+    fill: $gray-900;
+  }
+}
+
 .container2 {
   max-width: 500px;
   margin: 100px auto;
