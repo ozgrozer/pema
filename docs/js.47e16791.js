@@ -51691,7 +51691,7 @@ var App = function (_React$Component) {
                 'button',
                 {
                   id: 'openNewPersonModal',
-                  className: 'float-right btn btn-primary btn-lg',
+                  className: 'float-right btn btn-primary btn-sm',
                   onClick: this.toggleNewPersonModal.bind(this)
                 },
                 'New'
@@ -51769,7 +51769,7 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                       'button',
                       { className: 'btn btn-primary btn-lg btn-block' },
-                      'Add'
+                      'Add New Person'
                     )
                   )
                 )

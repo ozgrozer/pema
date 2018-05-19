@@ -73,7 +73,7 @@ class App extends React.Component {
 
               <button
                 id='openNewPersonModal'
-                className='float-right btn btn-primary btn-lg'
+                className='float-right btn btn-primary btn-sm'
                 onClick={this.toggleNewPersonModal.bind(this)}
               >
                 New
@@ -122,7 +122,7 @@ class App extends React.Component {
                   </ModalBody>
 
                   <ModalFooter>
-                    <button className='btn btn-primary btn-lg btn-block'>Add</button>
+                    <button className='btn btn-primary btn-lg btn-block'>Add New Person</button>
                   </ModalFooter>
                 </form>
               </Modal>

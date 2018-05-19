@@ -48,11 +48,9 @@ input {
     }
 
     #openNewPersonModal {
-      top: 0;
-      right: 0;
-      position: absolute;
-      padding-left: 30px;
-      padding-right: 30px;
+      height: 24px;
+      font-size: 9px;
+      text-transform: uppercase;
     }
   }
 
