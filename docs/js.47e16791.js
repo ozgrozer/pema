@@ -51611,7 +51611,8 @@ var App = function (_React$Component) {
       newPersonModal: false,
       newPersonFormItems: {},
       personDetailsModal: false,
-      personDetailsFormItems: {}
+      personDetailsFormItems: {},
+      updateDbStructureModal: false
     };
     return _this;
   }
@@ -51630,6 +51631,28 @@ var App = function (_React$Component) {
       this.setState({
         newPersonModal: !this.state.newPersonModal
       });
+    }
+  }, {
+    key: 'toggleUpdateDbStructureModal',
+    value: function toggleUpdateDbStructureModal() {
+      this.setState({
+        updateDbStructureModal: !this.state.updateDbStructureModal
+      });
+    }
+  }, {
+    key: 'updateDbStructure',
+    value: function updateDbStructure(e) {
+      e.preventDefault();
+      var form = e.target;
+      form.classList.add('was-validated');
+
+      if (form.checkValidity()) {
+        form.classList.remove('was-validated');
+
+        console.log('do something');
+      } else {
+        form.classList.add('was-validated');
+      }
     }
   }, {
     key: 'addNewPerson',
@@ -51685,7 +51708,58 @@ var App = function (_React$Component) {
                 'b',
                 { className: 'float-left' },
                 'Persons',
-                _react2.default.createElement('i', { id: 'gearIcon', className: 'icon icon-gear-b' })
+                _react2.default.createElement('i', {
+                  id: 'gearIcon',
+                  className: 'icon icon-gear-b',
+                  onClick: this.toggleUpdateDbStructureModal.bind(this)
+                }),
+                _react2.default.createElement(
+                  _reactstrap.Modal,
+                  {
+                    isOpen: this.state.updateDbStructureModal,
+                    toggle: this.toggleUpdateDbStructureModal.bind(this)
+                  },
+                  _react2.default.createElement(
+                    'form',
+                    { noValidate: true, onSubmit: this.updateDbStructure.bind(this) },
+                    _react2.default.createElement(
+                      _reactstrap.ModalHeader,
+                      {
+                        toggle: this.toggleUpdateDbStructureModal.bind(this)
+                      },
+                      'DB Structure'
+                    ),
+                    _react2.default.createElement(
+                      _reactstrap.ModalBody,
+                      null,
+                      _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement('textarea', {
+                          required: true,
+                          rows: '8',
+                          placeholder: 'Structure',
+                          className: 'form-control form-control-lg',
+                          value: '{ "ping": "pong", "lorem": "ipsum" }'
+                        }),
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'invalid-feedback' },
+                          'Required field'
+                        )
+                      )
+                    ),
+                    _react2.default.createElement(
+                      _reactstrap.ModalFooter,
+                      null,
+                      _react2.default.createElement(
+                        'button',
+                        { className: 'btn btn-primary btn-lg btn-block' },
+                        'Update DB Structure'
+                      )
+                    )
+                  )
+                )
               ),
               _react2.default.createElement(
                 'button',
@@ -51700,8 +51774,7 @@ var App = function (_React$Component) {
                 _reactstrap.Modal,
                 {
                   isOpen: this.state.newPersonModal,
-                  toggle: this.toggleNewPersonModal.bind(this),
-                  className: this.props.className
+                  toggle: this.toggleNewPersonModal.bind(this)
                 },
                 _react2.default.createElement(
                   'form',

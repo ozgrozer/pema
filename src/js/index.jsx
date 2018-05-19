@@ -15,7 +15,8 @@ class App extends React.Component {
       newPersonModal: false,
       newPersonFormItems: {},
       personDetailsModal: false,
-      personDetailsFormItems: {}
+      personDetailsFormItems: {},
+      updateDbStructureModal: false
     }
   }
 
@@ -30,6 +31,26 @@ class App extends React.Component {
     this.setState({
       newPersonModal: !this.state.newPersonModal
     })
+  }
+
+  toggleUpdateDbStructureModal () {
+    this.setState({
+      updateDbStructureModal: !this.state.updateDbStructureModal
+    })
+  }
+
+  updateDbStructure (e) {
+    e.preventDefault()
+    const form = e.target
+    form.classList.add('was-validated')
+
+    if (form.checkValidity()) {
+      form.classList.remove('was-validated')
+
+      console.log('do something')
+    } else {
+      form.classList.add('was-validated')
+    }
   }
 
   addNewPerson (e) {
@@ -68,7 +89,45 @@ class App extends React.Component {
             <div className='card-header'>
               <b className='float-left'>
                 Persons
-                <i id='gearIcon' className='icon icon-gear-b' />
+
+                <i
+                  id='gearIcon'
+                  className='icon icon-gear-b'
+                  onClick={this.toggleUpdateDbStructureModal.bind(this)}
+                />
+
+                <Modal
+                  isOpen={this.state.updateDbStructureModal}
+                  toggle={this.toggleUpdateDbStructureModal.bind(this)}
+                >
+                  <form noValidate onSubmit={this.updateDbStructure.bind(this)}>
+                    <ModalHeader
+                      toggle={this.toggleUpdateDbStructureModal.bind(this)}
+                    >
+                      DB Structure
+                    </ModalHeader>
+
+                    <ModalBody>
+                      <div>
+                        <textarea
+                          required
+                          rows='8'
+                          placeholder='Structure'
+                          className='form-control form-control-lg'
+                          value='{
+                            "ping": "pong",
+                            "lorem": "ipsum"
+                          }'
+                        />
+                        <div className='invalid-feedback'>Required field</div>
+                      </div>
+                    </ModalBody>
+
+                    <ModalFooter>
+                      <button className='btn btn-primary btn-lg btn-block'>Update DB Structure</button>
+                    </ModalFooter>
+                  </form>
+                </Modal>
               </b>
 
               <button
@@ -82,7 +141,6 @@ class App extends React.Component {
               <Modal
                 isOpen={this.state.newPersonModal}
                 toggle={this.toggleNewPersonModal.bind(this)}
-                className={this.props.className}
               >
                 <form noValidate onSubmit={this.addNewPerson.bind(this)}>
                   <ModalHeader

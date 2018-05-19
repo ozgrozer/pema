@@ -14,9 +14,8 @@ a {
 button {
   outline: none !important;
   cursor: pointer !important;
-  box-shadow: none !important;
 }
-input {
+input, textarea, button {
   box-shadow: none !important;
 }
 
