@@ -1,3 +1,3 @@
 # pema
 
-Person management app.
+Customizable person management app
