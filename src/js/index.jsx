@@ -1,16 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 import './../css/style.scss'
 
 class App extends React.Component {
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      modal: false
+    }
   }
 
-  openNewPersonModal () {
-    console.log('open modal')
+  toggleNewPersonModel () {
+    this.setState({
+      modal: !this.state.modal
+    })
   }
 
   render () {
@@ -24,13 +29,39 @@ class App extends React.Component {
           <div className='card'>
             <div className='card-header'>
               <b className='float-left'>Persons</b>
+
               <button
                 id='openNewPersonModal'
                 className='float-right btn btn-primary btn-sm'
-                onClick={this.openNewPersonModal.bind(this)}
+                onClick={this.toggleNewPersonModel.bind(this)}
               >
                 New
               </button>
+
+              <Modal
+                isOpen={this.state.modal}
+                toggle={this.toggleNewPersonModel.bind(this)}
+                className={this.props.className}
+              >
+                <ModalHeader
+                  toggle={this.toggleNewPersonModel.bind(this)}
+                >
+                  New Person
+                </ModalHeader>
+
+                <ModalBody>
+                  modal body
+                </ModalBody>
+
+                <ModalFooter>
+                  <button
+                    className='btn btn-primary'
+                    onClick={this.toggleNewPersonModel.bind(this)}
+                  >
+                    &nbsp; Add &nbsp;
+                  </button>
+                </ModalFooter>
+              </Modal>
             </div>
 
             <div className='card-body'>
