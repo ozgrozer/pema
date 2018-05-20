@@ -2,7 +2,7 @@
 
 Customizable person management app
 
-[https://pema.gq](https://pema.gq)
+[https://pema.ml](https://pema.ml)
 
 ## Usage
 
