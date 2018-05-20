@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 import './../css/style.scss'
-import { airtableCreate } from './airtable'
+import { airtableCreate, airtableSelect } from './airtable'
 
 class App extends React.Component {
   constructor () {
@@ -14,6 +14,18 @@ class App extends React.Component {
       personDetailsModal: false,
       personDetailsFormItems: {}
     }
+  }
+
+  componentDidMount () {
+    airtableSelect({
+      base: 'persons'
+    })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   handleInput (e) {

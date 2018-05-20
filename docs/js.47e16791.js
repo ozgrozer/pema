@@ -51579,8 +51579,28 @@ var airtableCreate = function airtableCreate(opts) {
   });
 };
 
+var airtableSelect = function airtableSelect(opts) {
+  var result = {};
+
+  return new Promise(function (resolve, reject) {
+    base(opts.base).select({
+      maxRecords: 3
+    }).eachPage(function (records, fetchNextPage) {
+      records.forEach(function (record) {
+        result[record.id] = record.fields;
+      });
+
+      fetchNextPage();
+    }, function (err) {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+};
+
 module.exports = {
-  airtableCreate: airtableCreate
+  airtableCreate: airtableCreate,
+  airtableSelect: airtableSelect
 };
 },{"airtable":7}],2:[function(require,module,exports) {
 'use strict';
@@ -51627,6 +51647,17 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      (0, _airtable.airtableSelect)({
+        base: 'persons'
+      }).then(function (res) {
+        console.log(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }, {
     key: 'handleInput',
     value: function handleInput(e) {
       var item = e.target;

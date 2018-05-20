@@ -12,6 +12,28 @@ const airtableCreate = (opts) => {
   })
 }
 
+const airtableSelect = (opts) => {
+  const result = {}
+
+  return new Promise((resolve, reject) => {
+    base(opts.base)
+      .select({
+        maxRecords: 3
+      })
+      .eachPage((records, fetchNextPage) => {
+        records.forEach((record) => {
+          result[record.id] = record.fields
+        })
+
+        fetchNextPage()
+      }, (err) => {
+        if (err) reject(err)
+        resolve(result)
+      })
+  })
+}
+
 module.exports = {
-  airtableCreate
+  airtableCreate,
+  airtableSelect
 }
