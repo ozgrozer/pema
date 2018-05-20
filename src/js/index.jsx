@@ -35,16 +35,32 @@ class App extends React.Component {
       })
   }
 
-  handleInput (e) {
+  handleNewPersonInput (e) {
     const item = e.target
     const newPersonFormItems = this.state.newPersonFormItems
     newPersonFormItems[item.name] = item.value
     this.setState({ newPersonFormItems })
   }
 
+  handlePersonDetailsInput (e) {
+    const item = e.target
+    const personDetailsFormItems = this.state.personDetailsFormItems
+    personDetailsFormItems[item.name] = item.value
+    this.setState({ personDetailsFormItems })
+  }
+
   toggleNewPersonModal () {
     this.setState({
       newPersonModal: !this.state.newPersonModal
+    })
+  }
+
+  togglePersonDetailsModal (personId) {
+    const personDetailsFormItems = personId ? this.state.persons[personId] : {}
+
+    this.setState({
+      personDetailsFormItems,
+      personDetailsModal: !this.state.personDetailsModal
     })
   }
 
@@ -84,6 +100,10 @@ class App extends React.Component {
       })
   }
 
+  updatePerson () {
+    console.log('updatePerson')
+  }
+
   render () {
     let totalPersonDiv
     if (this.state.totalPerson > 1) {
@@ -97,8 +117,8 @@ class App extends React.Component {
       return (
         <button
           key={personId}
-          className='list-group-item list-group-item-action'
-        >
+          onClick={this.togglePersonDetailsModal.bind(this, personId)}
+          className='list-group-item list-group-item-action'>
           {person.Fullname}
         </button>
       )
@@ -123,22 +143,18 @@ class App extends React.Component {
               <button
                 id='openNewPersonModal'
                 className='float-right btn btn-primary btn-sm'
-                onClick={this.toggleNewPersonModal.bind(this)}
-              >
+                onClick={this.toggleNewPersonModal.bind(this)}>
                 New
               </button>
 
               <Modal
                 isOpen={this.state.newPersonModal}
-                toggle={this.toggleNewPersonModal.bind(this)}
-              >
+                toggle={this.toggleNewPersonModal.bind(this)}>
                 <form
                   noValidate
-                  onSubmit={this.formValidation.bind(this, this.addNewPerson.bind(this))}
-                >
+                  onSubmit={this.formValidation.bind(this, this.addNewPerson.bind(this))}>
                   <ModalHeader
-                    toggle={this.toggleNewPersonModal.bind(this)}
-                  >
+                    toggle={this.toggleNewPersonModal.bind(this)}>
                     New Person
                   </ModalHeader>
 
@@ -151,9 +167,8 @@ class App extends React.Component {
                         id='fullname'
                         name='Fullname'
                         className='form-control form-control-lg'
-                        onChange={this.handleInput.bind(this)}
-                        value={this.state.newPersonFormItems['Fullname'] || ''}
-                      />
+                        onChange={this.handleNewPersonInput.bind(this)}
+                        value={this.state.newPersonFormItems['Fullname'] || ''} />
                       <div className='invalid-feedback'>Required field</div>
                     </div>
 
@@ -165,9 +180,8 @@ class App extends React.Component {
                         id='age'
                         name='Age'
                         className='form-control form-control-lg'
-                        onChange={this.handleInput.bind(this)}
-                        value={this.state.newPersonFormItems['Age'] || ''}
-                      />
+                        onChange={this.handleNewPersonInput.bind(this)}
+                        value={this.state.newPersonFormItems['Age'] || ''} />
                       <div className='invalid-feedback'>Required field</div>
                     </div>
                   </ModalBody>
@@ -182,6 +196,51 @@ class App extends React.Component {
             <div className='card-body'>
               <div className='list-group list-group-flush'>
                 {personsDiv}
+
+                <Modal
+                  isOpen={this.state.personDetailsModal}
+                  toggle={this.togglePersonDetailsModal.bind(this, '')}>
+                  <form
+                    noValidate
+                    onSubmit={this.formValidation.bind(this, this.updatePerson.bind(this))}>
+                    <ModalHeader
+                      toggle={this.togglePersonDetailsModal.bind(this, '')}>
+                      {this.state.personDetailsFormItems['Fullname'] || ''}
+                    </ModalHeader>
+
+                    <ModalBody>
+                      <div className='form-group'>
+                        <label htmlFor='fullname'>Fullname</label>
+                        <input
+                          required
+                          type='text'
+                          id='fullname'
+                          name='Fullname'
+                          className='form-control form-control-lg'
+                          onChange={this.handlePersonDetailsInput.bind(this)}
+                          value={this.state.personDetailsFormItems['Fullname'] || ''} />
+                        <div className='invalid-feedback'>Required field</div>
+                      </div>
+
+                      <div>
+                        <label htmlFor='age'>Age</label>
+                        <input
+                          required
+                          type='text'
+                          id='age'
+                          name='Age'
+                          className='form-control form-control-lg'
+                          onChange={this.handlePersonDetailsInput.bind(this)}
+                          value={this.state.personDetailsFormItems['Age'] || ''} />
+                        <div className='invalid-feedback'>Required field</div>
+                      </div>
+                    </ModalBody>
+
+                    <ModalFooter>
+                      <button className='btn btn-primary btn-lg btn-block'>Update Person</button>
+                    </ModalFooter>
+                  </form>
+                </Modal>
               </div>
             </div>
 

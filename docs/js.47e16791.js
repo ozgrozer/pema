@@ -51665,18 +51665,36 @@ var App = function (_React$Component) {
       });
     }
   }, {
-    key: 'handleInput',
-    value: function handleInput(e) {
+    key: 'handleNewPersonInput',
+    value: function handleNewPersonInput(e) {
       var item = e.target;
       var newPersonFormItems = this.state.newPersonFormItems;
       newPersonFormItems[item.name] = item.value;
       this.setState({ newPersonFormItems: newPersonFormItems });
     }
   }, {
+    key: 'handlePersonDetailsInput',
+    value: function handlePersonDetailsInput(e) {
+      var item = e.target;
+      var personDetailsFormItems = this.state.personDetailsFormItems;
+      personDetailsFormItems[item.name] = item.value;
+      this.setState({ personDetailsFormItems: personDetailsFormItems });
+    }
+  }, {
     key: 'toggleNewPersonModal',
     value: function toggleNewPersonModal() {
       this.setState({
         newPersonModal: !this.state.newPersonModal
+      });
+    }
+  }, {
+    key: 'togglePersonDetailsModal',
+    value: function togglePersonDetailsModal(personId) {
+      var personDetailsFormItems = personId ? this.state.persons[personId] : {};
+
+      this.setState({
+        personDetailsFormItems: personDetailsFormItems,
+        personDetailsModal: !this.state.personDetailsModal
       });
     }
   }, {
@@ -51718,6 +51736,11 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'updatePerson',
+    value: function updatePerson() {
+      console.log('updatePerson');
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this4 = this;
@@ -51745,8 +51768,8 @@ var App = function (_React$Component) {
           'button',
           {
             key: personId,
-            className: 'list-group-item list-group-item-action'
-          },
+            onClick: _this4.togglePersonDetailsModal.bind(_this4, personId),
+            className: 'list-group-item list-group-item-action' },
           person.Fullname
         );
       });
@@ -51788,27 +51811,23 @@ var App = function (_React$Component) {
                 {
                   id: 'openNewPersonModal',
                   className: 'float-right btn btn-primary btn-sm',
-                  onClick: this.toggleNewPersonModal.bind(this)
-                },
+                  onClick: this.toggleNewPersonModal.bind(this) },
                 'New'
               ),
               _react2.default.createElement(
                 _reactstrap.Modal,
                 {
                   isOpen: this.state.newPersonModal,
-                  toggle: this.toggleNewPersonModal.bind(this)
-                },
+                  toggle: this.toggleNewPersonModal.bind(this) },
                 _react2.default.createElement(
                   'form',
                   {
                     noValidate: true,
-                    onSubmit: this.formValidation.bind(this, this.addNewPerson.bind(this))
-                  },
+                    onSubmit: this.formValidation.bind(this, this.addNewPerson.bind(this)) },
                   _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     {
-                      toggle: this.toggleNewPersonModal.bind(this)
-                    },
+                      toggle: this.toggleNewPersonModal.bind(this) },
                     'New Person'
                   ),
                   _react2.default.createElement(
@@ -51828,9 +51847,8 @@ var App = function (_React$Component) {
                         id: 'fullname',
                         name: 'Fullname',
                         className: 'form-control form-control-lg',
-                        onChange: this.handleInput.bind(this),
-                        value: this.state.newPersonFormItems['Fullname'] || ''
-                      }),
+                        onChange: this.handleNewPersonInput.bind(this),
+                        value: this.state.newPersonFormItems['Fullname'] || '' }),
                       _react2.default.createElement(
                         'div',
                         { className: 'invalid-feedback' },
@@ -51851,9 +51869,8 @@ var App = function (_React$Component) {
                         id: 'age',
                         name: 'Age',
                         className: 'form-control form-control-lg',
-                        onChange: this.handleInput.bind(this),
-                        value: this.state.newPersonFormItems['Age'] || ''
-                      }),
+                        onChange: this.handleNewPersonInput.bind(this),
+                        value: this.state.newPersonFormItems['Age'] || '' }),
                       _react2.default.createElement(
                         'div',
                         { className: 'invalid-feedback' },
@@ -51879,7 +51896,82 @@ var App = function (_React$Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'list-group list-group-flush' },
-                personsDiv
+                personsDiv,
+                _react2.default.createElement(
+                  _reactstrap.Modal,
+                  {
+                    isOpen: this.state.personDetailsModal,
+                    toggle: this.togglePersonDetailsModal.bind(this, '') },
+                  _react2.default.createElement(
+                    'form',
+                    {
+                      noValidate: true,
+                      onSubmit: this.formValidation.bind(this, this.updatePerson.bind(this)) },
+                    _react2.default.createElement(
+                      _reactstrap.ModalHeader,
+                      {
+                        toggle: this.togglePersonDetailsModal.bind(this, '') },
+                      this.state.personDetailsFormItems['Fullname'] || ''
+                    ),
+                    _react2.default.createElement(
+                      _reactstrap.ModalBody,
+                      null,
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        _react2.default.createElement(
+                          'label',
+                          { htmlFor: 'fullname' },
+                          'Fullname'
+                        ),
+                        _react2.default.createElement('input', {
+                          required: true,
+                          type: 'text',
+                          id: 'fullname',
+                          name: 'Fullname',
+                          className: 'form-control form-control-lg',
+                          onChange: this.handlePersonDetailsInput.bind(this),
+                          value: this.state.personDetailsFormItems['Fullname'] || '' }),
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'invalid-feedback' },
+                          'Required field'
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(
+                          'label',
+                          { htmlFor: 'age' },
+                          'Age'
+                        ),
+                        _react2.default.createElement('input', {
+                          required: true,
+                          type: 'text',
+                          id: 'age',
+                          name: 'Age',
+                          className: 'form-control form-control-lg',
+                          onChange: this.handlePersonDetailsInput.bind(this),
+                          value: this.state.personDetailsFormItems['Age'] || '' }),
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'invalid-feedback' },
+                          'Required field'
+                        )
+                      )
+                    ),
+                    _react2.default.createElement(
+                      _reactstrap.ModalFooter,
+                      null,
+                      _react2.default.createElement(
+                        'button',
+                        { className: 'btn btn-primary btn-lg btn-block' },
+                        'Update Person'
+                      )
+                    )
+                  )
+                )
               )
             ),
             _react2.default.createElement(
