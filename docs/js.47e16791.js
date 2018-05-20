@@ -28554,7 +28554,74 @@ exports.UncontrolledNavDropdown = UncontrolledNavDropdown;
 exports.UncontrolledTooltip = UncontrolledTooltip;
 exports.Util = utils;
 //# sourceMappingURL=reactstrap.es.js.map
-},{"react":5,"prop-types":18,"classnames":17,"lodash.isfunction":20,"lodash.isobject":21,"react-dom":6,"react-popper":19,"lodash.tonumber":22}],51:[function(require,module,exports) {
+},{"react":5,"prop-types":18,"classnames":17,"lodash.isfunction":20,"lodash.isobject":21,"react-dom":6,"react-popper":19,"lodash.tonumber":22}],75:[function(require,module,exports) {
+var bundleURL = null;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],72:[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+  newLink.onload = function () {
+    link.remove();
+  };
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":75}],3:[function(require,module,exports) {
+
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+},{"./../../lib/fontastic/fonts/pema.eot":[["pema.dbdd2023.eot",68],68],"./../../lib/fontastic/fonts/pema.woff":[["pema.9e1f4e50.woff",69],69],"./../../lib/fontastic/fonts/pema.ttf":[["pema.cf8b7442.ttf",70],70],"./../../lib/fontastic/fonts/pema.svg":[["pema.abcde7b9.svg",71],71],"_css_loader":72}],51:[function(require,module,exports) {
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
@@ -51492,79 +51559,30 @@ Airtable.Table = Table;
 Airtable.Error = AirtableError;
 
 module.exports = Airtable;
-},{"assert":16,"./class":11,"./base":12,"./record":13,"./table":14,"./airtable_error":15}],75:[function(require,module,exports) {
-var bundleURL = null;
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
+},{"assert":16,"./class":11,"./base":12,"./record":13,"./table":14,"./airtable_error":15}],4:[function(require,module,exports) {
+'use strict';
 
-  return bundleURL;
-}
+var _airtable = require('airtable');
 
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
+var _airtable2 = _interopRequireDefault(_airtable);
 
-  return '/';
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
+var base = new _airtable2.default({ apiKey: 'key4DpLhS2lW7eGvo' }).base('appJS13hsCIu1VvTW');
 
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],72:[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-  newLink.onload = function () {
-    link.remove();
-  };
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-
-    cssTimeout = null;
-  }, 50);
-}
-
-module.exports = reloadCSS;
-},{"./bundle-url":75}],3:[function(require,module,exports) {
-
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
-},{"./../../lib/fontastic/fonts/pema.eot":[["pema.dbdd2023.eot",68],68],"./../../lib/fontastic/fonts/pema.woff":[["pema.9e1f4e50.woff",69],69],"./../../lib/fontastic/fonts/pema.ttf":[["pema.cf8b7442.ttf",70],70],"./../../lib/fontastic/fonts/pema.svg":[["pema.abcde7b9.svg",71],71],"_css_loader":72}],4:[function(require,module,exports) {
-module.exports = {
-  apiKey: 'key4DpLhS2lW7eGvo',
-  base: 'appJS13hsCIu1VvTW'
+var airtableCreate = function airtableCreate(opts) {
+  return new Promise(function (resolve, reject) {
+    base(opts.base).create(opts.values, { typecast: true }, function (err, record) {
+      if (err) reject(err);
+      resolve(record.getId());
+    });
+  });
 };
-},{}],2:[function(require,module,exports) {
+
+module.exports = {
+  airtableCreate: airtableCreate
+};
+},{"airtable":7}],2:[function(require,module,exports) {
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -51579,15 +51597,9 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactstrap = require('reactstrap');
 
-var _airtable = require('airtable');
-
-var _airtable2 = _interopRequireDefault(_airtable);
-
 require('./../css/style.scss');
 
-var _airtable3 = require('./airtable');
-
-var _airtable4 = _interopRequireDefault(_airtable3);
+var _airtable = require('./airtable');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51596,8 +51608,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var base = new _airtable2.default({ apiKey: _airtable4.default.apiKey }).base(_airtable4.default.base);
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -51662,11 +51672,20 @@ var App = function (_React$Component) {
   }, {
     key: 'addNewPerson',
     value: function addNewPerson() {
-      console.log('do something');
-      console.log(this.state.newPersonFormItems);
-      this.setState({
-        newPersonModal: false,
-        newPersonFormItems: {}
+      var _this2 = this;
+
+      (0, _airtable.airtableCreate)({
+        base: 'persons',
+        values: this.state.newPersonFormItems
+      }).then(function (getId) {
+        console.log(getId);
+
+        _this2.setState({
+          newPersonModal: false,
+          newPersonFormItems: {}
+        });
+      }).catch(function (err) {
+        console.log(err);
       });
     }
   }, {
@@ -51801,10 +51820,10 @@ var App = function (_React$Component) {
                         required: true,
                         type: 'text',
                         id: 'fullname',
-                        name: 'fullname',
+                        name: 'Fullname',
                         className: 'form-control form-control-lg',
                         onChange: this.handleInput.bind(this),
-                        value: this.state.newPersonFormItems.fullname || ''
+                        value: this.state.newPersonFormItems['Fullname'] || ''
                       }),
                       _react2.default.createElement(
                         'div',
@@ -51824,10 +51843,10 @@ var App = function (_React$Component) {
                         required: true,
                         type: 'text',
                         id: 'age',
-                        name: 'age',
+                        name: 'Age',
                         className: 'form-control form-control-lg',
                         onChange: this.handleInput.bind(this),
-                        value: this.state.newPersonFormItems.age || ''
+                        value: this.state.newPersonFormItems['Age'] || ''
                       }),
                       _react2.default.createElement(
                         'div',
@@ -51891,7 +51910,7 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
-},{"react":5,"react-dom":6,"reactstrap":8,"airtable":7,"./../css/style.scss":3,"./airtable":4}],76:[function(require,module,exports) {
+},{"react":5,"react-dom":6,"reactstrap":8,"./../css/style.scss":3,"./airtable":4}],81:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -52061,5 +52080,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[76,2], null)
+},{}]},{},[81,2], null)
 //# sourceMappingURL=/js.47e16791.map

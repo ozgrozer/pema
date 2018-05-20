@@ -1,12 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
-import Airtable from 'airtable'
 
 import './../css/style.scss'
-import airtable from './airtable'
-
-const base = new Airtable({ apiKey: airtable.apiKey }).base(airtable.base)
+import { airtableCreate } from './airtable'
 
 class App extends React.Component {
   constructor () {
@@ -58,12 +55,21 @@ class App extends React.Component {
   }
 
   addNewPerson () {
-    console.log('do something')
-    console.log(this.state.newPersonFormItems)
-    this.setState({
-      newPersonModal: false,
-      newPersonFormItems: {}
+    airtableCreate({
+      base: 'persons',
+      values: this.state.newPersonFormItems
     })
+      .then((getId) => {
+        console.log(getId)
+
+        this.setState({
+          newPersonModal: false,
+          newPersonFormItems: {}
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   render () {
@@ -152,10 +158,10 @@ class App extends React.Component {
                         required
                         type='text'
                         id='fullname'
-                        name='fullname'
+                        name='Fullname'
                         className='form-control form-control-lg'
                         onChange={this.handleInput.bind(this)}
-                        value={this.state.newPersonFormItems.fullname || ''}
+                        value={this.state.newPersonFormItems['Fullname'] || ''}
                       />
                       <div className='invalid-feedback'>Required field</div>
                     </div>
@@ -166,10 +172,10 @@ class App extends React.Component {
                         required
                         type='text'
                         id='age'
-                        name='age'
+                        name='Age'
                         className='form-control form-control-lg'
                         onChange={this.handleInput.bind(this)}
-                        value={this.state.newPersonFormItems.age || ''}
+                        value={this.state.newPersonFormItems['Age'] || ''}
                       />
                       <div className='invalid-feedback'>Required field</div>
                     </div>
