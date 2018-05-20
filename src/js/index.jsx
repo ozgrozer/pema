@@ -86,7 +86,7 @@ class App extends React.Component {
       Object.keys(this.state.persons).map((i) => {
         const person = this.state.persons[i]
         const personsFirstField = Object.keys(person)[0]
-        if (person[personsFirstField].includes(searchValue)) {
+        if (person[personsFirstField].toLowerCase().includes(searchValue.toLowerCase())) {
           filteredPersons[i] = person
         }
       })

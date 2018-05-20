@@ -51745,7 +51745,7 @@ var App = function (_React$Component) {
         Object.keys(this.state.persons).map(function (i) {
           var person = _this3.state.persons[i];
           var personsFirstField = Object.keys(person)[0];
-          if (person[personsFirstField].includes(searchValue)) {
+          if (person[personsFirstField].toLowerCase().includes(searchValue.toLowerCase())) {
             filteredPersons[i] = person;
           }
         });
