@@ -51641,7 +51641,9 @@ var App = function (_React$Component) {
       newPersonModal: false,
       newPersonFormItems: {},
       personDetailsModal: false,
-      personDetailsFormItems: {}
+      personDetailsFormItems: {},
+      persons: {},
+      totalPerson: 0
     };
     return _this;
   }
@@ -51649,10 +51651,17 @@ var App = function (_React$Component) {
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this2 = this;
+
       (0, _airtable.airtableSelect)({
         base: 'persons'
-      }).then(function (res) {
-        console.log(res);
+      }).then(function (persons) {
+        var totalPerson = Object.keys(persons).length;
+
+        _this2.setState({
+          persons: persons,
+          totalPerson: totalPerson
+        });
       }).catch(function (err) {
         console.log(err);
       });
@@ -51690,7 +51699,7 @@ var App = function (_React$Component) {
   }, {
     key: 'addNewPerson',
     value: function addNewPerson() {
-      var _this2 = this;
+      var _this3 = this;
 
       (0, _airtable.airtableCreate)({
         base: 'persons',
@@ -51698,7 +51707,7 @@ var App = function (_React$Component) {
       }).then(function (getId) {
         console.log(getId);
 
-        _this2.setState({
+        _this3.setState({
           newPersonModal: false,
           newPersonFormItems: {}
         });
@@ -51709,6 +51718,37 @@ var App = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this4 = this;
+
+      var totalPersonDiv = void 0;
+      if (this.state.totalPerson > 1) {
+        totalPersonDiv = _react2.default.createElement(
+          'div',
+          null,
+          this.state.totalPerson,
+          ' persons'
+        );
+      } else {
+        totalPersonDiv = _react2.default.createElement(
+          'div',
+          null,
+          this.state.totalPerson,
+          ' person'
+        );
+      }
+
+      var personsDiv = Object.keys(this.state.persons).map(function (personId) {
+        var person = _this4.state.persons[personId];
+        return _react2.default.createElement(
+          'button',
+          {
+            key: personId,
+            className: 'list-group-item list-group-item-action'
+          },
+          person.Fullname
+        );
+      });
+
       return _react2.default.createElement(
         'div',
         { className: 'container' },
@@ -51837,32 +51877,13 @@ var App = function (_React$Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'list-group list-group-flush' },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'list-group-item list-group-item-action' },
-                  'Jack Dorsey'
-                ),
-                _react2.default.createElement(
-                  'button',
-                  { className: 'list-group-item list-group-item-action' },
-                  'Bill Gates'
-                ),
-                _react2.default.createElement(
-                  'button',
-                  { className: 'list-group-item list-group-item-action' },
-                  'Mark Zuckerberg'
-                ),
-                _react2.default.createElement(
-                  'button',
-                  { className: 'list-group-item list-group-item-action' },
-                  'Jeff Bezos'
-                )
+                personsDiv
               )
             ),
             _react2.default.createElement(
               'div',
               { className: 'card-footer' },
-              '4 persons'
+              totalPersonDiv
             )
           )
         )

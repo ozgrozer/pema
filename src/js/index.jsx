@@ -12,7 +12,9 @@ class App extends React.Component {
       newPersonModal: false,
       newPersonFormItems: {},
       personDetailsModal: false,
-      personDetailsFormItems: {}
+      personDetailsFormItems: {},
+      persons: {},
+      totalPerson: 0
     }
   }
 
@@ -20,8 +22,13 @@ class App extends React.Component {
     airtableSelect({
       base: 'persons'
     })
-      .then((res) => {
-        console.log(res)
+      .then((persons) => {
+        const totalPerson = Object.keys(persons).length
+
+        this.setState({
+          persons,
+          totalPerson
+        })
       })
       .catch((err) => {
         console.log(err)
@@ -74,6 +81,25 @@ class App extends React.Component {
   }
 
   render () {
+    let totalPersonDiv
+    if (this.state.totalPerson > 1) {
+      totalPersonDiv = <div>{this.state.totalPerson} persons</div>
+    } else {
+      totalPersonDiv = <div>{this.state.totalPerson} person</div>
+    }
+
+    const personsDiv = Object.keys(this.state.persons).map((personId) => {
+      const person = this.state.persons[personId]
+      return (
+        <button
+          key={personId}
+          className='list-group-item list-group-item-action'
+        >
+          {person.Fullname}
+        </button>
+      )
+    })
+
     return (
       <div className='container'>
         <div className='container2'>
@@ -151,15 +177,12 @@ class App extends React.Component {
 
             <div className='card-body'>
               <div className='list-group list-group-flush'>
-                <button className='list-group-item list-group-item-action'>Jack Dorsey</button>
-                <button className='list-group-item list-group-item-action'>Bill Gates</button>
-                <button className='list-group-item list-group-item-action'>Mark Zuckerberg</button>
-                <button className='list-group-item list-group-item-action'>Jeff Bezos</button>
+                {personsDiv}
               </div>
             </div>
 
             <div className='card-footer'>
-              4 persons
+              {totalPersonDiv}
             </div>
           </div>
         </div>
