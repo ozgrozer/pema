@@ -79,10 +79,35 @@ class App extends React.Component {
     this.setState({ personDetailsFormItems })
   }
 
+  updateFilteredPersons (searchValue) {
+    let filteredPersons = {}
+
+    if (searchValue) {
+      Object.keys(this.state.persons).map((i) => {
+        const person = this.state.persons[i]
+        const personsFirstField = Object.keys(person)[0]
+        if (person[personsFirstField].includes(searchValue)) {
+          filteredPersons[i] = person
+        }
+      })
+    } else {
+      filteredPersons = this.state.persons
+    }
+
+    const totalPerson = Object.keys(filteredPersons).length
+
+    this.setState({
+      totalPerson,
+      filteredPersons
+    })
+  }
+
   handleSearchInput (e) {
     const item = e.target
     const searchValue = item.value
     this.setState({ searchValue })
+
+    this.updateFilteredPersons(searchValue)
   }
 
   formValidation (callback, e) {
@@ -115,6 +140,8 @@ class App extends React.Component {
           newPersonModal: false,
           newPersonFormItems: {}
         })
+
+        this.updateFilteredPersons(this.state.searchValue)
       })
       .catch((err) => {
         console.log(err)
@@ -131,6 +158,8 @@ class App extends React.Component {
         this.setState({
           personDetailsModal: false
         })
+
+        this.updateFilteredPersons(this.state.searchValue)
       })
       .catch((err) => {
         console.log(err)
@@ -154,6 +183,8 @@ class App extends React.Component {
           persons,
           totalPerson
         })
+
+        this.updateFilteredPersons(this.state.searchValue)
       })
       .catch((err) => {
         console.log(err)
@@ -168,11 +199,11 @@ class App extends React.Component {
       totalPersonDiv = <div>{this.state.totalPerson} person</div>
     }
 
-    const personsDiv = Object.keys(this.state.persons).map((personId) => {
-      const person = this.state.persons[personId]
+    const personsDiv = Object.keys(this.state.filteredPersons).map((personId) => {
+      const person = this.state.filteredPersons[personId]
       const personsFirstFieldValue = person[this.state.fields[0]]
 
-      const button = (
+      return (
         <button
           key={personId}
           className='list-group-item list-group-item-action'
@@ -186,14 +217,6 @@ class App extends React.Component {
           </div>
         </button>
       )
-
-      if (this.state.searchValue) {
-        if (personsFirstFieldValue.includes(this.state.searchValue)) {
-          return button
-        }
-      } else {
-        return button
-      }
     })
 
     let newPersonFormDiv
@@ -290,15 +313,13 @@ class App extends React.Component {
             </div>
 
             <div className='card-body'>
-              {this.state.totalPerson > 0 ? (
-                <input
-                  type='text'
-                  id='searchForm'
-                  placeholder='Search'
-                  className='form-control'
-                  value={this.state.searchValue}
-                  onChange={this.handleSearchInput.bind(this)} />
-              ) : ''}
+              <input
+                type='text'
+                id='searchForm'
+                placeholder='Search'
+                className='form-control'
+                value={this.state.searchValue}
+                onChange={this.handleSearchInput.bind(this)} />
 
               <div className='list-group list-group-flush'>
                 {personsDiv}

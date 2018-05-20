@@ -51735,11 +51735,39 @@ var App = function (_React$Component) {
       this.setState({ personDetailsFormItems: personDetailsFormItems });
     }
   }, {
+    key: 'updateFilteredPersons',
+    value: function updateFilteredPersons(searchValue) {
+      var _this3 = this;
+
+      var filteredPersons = {};
+
+      if (searchValue) {
+        Object.keys(this.state.persons).map(function (i) {
+          var person = _this3.state.persons[i];
+          var personsFirstField = Object.keys(person)[0];
+          if (person[personsFirstField].includes(searchValue)) {
+            filteredPersons[i] = person;
+          }
+        });
+      } else {
+        filteredPersons = this.state.persons;
+      }
+
+      var totalPerson = Object.keys(filteredPersons).length;
+
+      this.setState({
+        totalPerson: totalPerson,
+        filteredPersons: filteredPersons
+      });
+    }
+  }, {
     key: 'handleSearchInput',
     value: function handleSearchInput(e) {
       var item = e.target;
       var searchValue = item.value;
       this.setState({ searchValue: searchValue });
+
+      this.updateFilteredPersons(searchValue);
     }
   }, {
     key: 'formValidation',
@@ -51759,22 +51787,24 @@ var App = function (_React$Component) {
   }, {
     key: 'addNewPerson',
     value: function addNewPerson() {
-      var _this3 = this;
+      var _this4 = this;
 
       (0, _airtable.airtableCreate)({
         base: 'persons',
         values: this.state.newPersonFormItems
       }).then(function (getId) {
-        var persons = _this3.state.persons;
-        persons[getId] = _this3.state.newPersonFormItems;
+        var persons = _this4.state.persons;
+        persons[getId] = _this4.state.newPersonFormItems;
         var totalPerson = Object.keys(persons).length;
 
-        _this3.setState({
+        _this4.setState({
           persons: persons,
           totalPerson: totalPerson,
           newPersonModal: false,
           newPersonFormItems: {}
         });
+
+        _this4.updateFilteredPersons(_this4.state.searchValue);
       }).catch(function (err) {
         console.log(err);
       });
@@ -51782,16 +51812,18 @@ var App = function (_React$Component) {
   }, {
     key: 'updatePerson',
     value: function updatePerson() {
-      var _this4 = this;
+      var _this5 = this;
 
       (0, _airtable.airtableUpdate)({
         base: 'persons',
         id: this.state.selectedPersonId,
         values: this.state.personDetailsFormItems
       }).then(function (getId) {
-        _this4.setState({
+        _this5.setState({
           personDetailsModal: false
         });
+
+        _this5.updateFilteredPersons(_this5.state.searchValue);
       }).catch(function (err) {
         console.log(err);
       });
@@ -51799,7 +51831,7 @@ var App = function (_React$Component) {
   }, {
     key: 'deletePerson',
     value: function deletePerson(personId, e) {
-      var _this5 = this;
+      var _this6 = this;
 
       e.preventDefault();
       e.stopPropagation();
@@ -51808,14 +51840,16 @@ var App = function (_React$Component) {
         base: 'persons',
         id: personId
       }).then(function (deletedId) {
-        var persons = _this5.state.persons;
+        var persons = _this6.state.persons;
         delete persons[deletedId];
         var totalPerson = Object.keys(persons).length;
 
-        _this5.setState({
+        _this6.setState({
           persons: persons,
           totalPerson: totalPerson
         });
+
+        _this6.updateFilteredPersons(_this6.state.searchValue);
       }).catch(function (err) {
         console.log(err);
       });
@@ -51823,7 +51857,7 @@ var App = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this6 = this;
+      var _this7 = this;
 
       var totalPersonDiv = void 0;
       if (this.state.totalPerson > 1) {
@@ -51842,33 +51876,25 @@ var App = function (_React$Component) {
         );
       }
 
-      var personsDiv = Object.keys(this.state.persons).map(function (personId) {
-        var person = _this6.state.persons[personId];
-        var personsFirstFieldValue = person[_this6.state.fields[0]];
+      var personsDiv = Object.keys(this.state.filteredPersons).map(function (personId) {
+        var person = _this7.state.filteredPersons[personId];
+        var personsFirstFieldValue = person[_this7.state.fields[0]];
 
-        var button = _react2.default.createElement(
+        return _react2.default.createElement(
           'button',
           {
             key: personId,
             className: 'list-group-item list-group-item-action',
-            onClick: _this6.togglePersonDetailsModal.bind(_this6, personId) },
+            onClick: _this7.togglePersonDetailsModal.bind(_this7, personId) },
           personsFirstFieldValue,
           _react2.default.createElement(
             'div',
             {
               className: 'btn btn-danger btn-sm deletePerson',
-              onClick: _this6.deletePerson.bind(_this6, personId) },
+              onClick: _this7.deletePerson.bind(_this7, personId) },
             'Delete'
           )
         );
-
-        if (_this6.state.searchValue) {
-          if (personsFirstFieldValue.includes(_this6.state.searchValue)) {
-            return button;
-          }
-        } else {
-          return button;
-        }
       });
 
       var newPersonFormDiv = void 0;
@@ -51890,8 +51916,8 @@ var App = function (_React$Component) {
               name: field,
               id: 'newPersonFormItem' + i,
               className: 'form-control form-control-lg',
-              onChange: _this6.handleNewPersonInput.bind(_this6),
-              value: _this6.state.newPersonFormItems[field] || '' }),
+              onChange: _this7.handleNewPersonInput.bind(_this7),
+              value: _this7.state.newPersonFormItems[field] || '' }),
             _react2.default.createElement(
               'div',
               { className: 'invalid-feedback' },
@@ -51916,8 +51942,8 @@ var App = function (_React$Component) {
               name: field,
               id: 'personDetailsFormItem' + i,
               className: 'form-control form-control-lg',
-              onChange: _this6.handlePersonDetailsInput.bind(_this6),
-              value: _this6.state.personDetailsFormItems[field] || '' }),
+              onChange: _this7.handlePersonDetailsInput.bind(_this7),
+              value: _this7.state.personDetailsFormItems[field] || '' }),
             _react2.default.createElement(
               'div',
               { className: 'invalid-feedback' },
@@ -52003,13 +52029,13 @@ var App = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'card-body' },
-              this.state.totalPerson > 0 ? _react2.default.createElement('input', {
+              _react2.default.createElement('input', {
                 type: 'text',
                 id: 'searchForm',
                 placeholder: 'Search',
                 className: 'form-control',
                 value: this.state.searchValue,
-                onChange: this.handleSearchInput.bind(this) }) : '',
+                onChange: this.handleSearchInput.bind(this) }),
               _react2.default.createElement(
                 'div',
                 { className: 'list-group list-group-flush' },
