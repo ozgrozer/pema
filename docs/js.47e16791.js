@@ -51583,7 +51583,9 @@ var airtableSelect = function airtableSelect(opts) {
   var result = {};
 
   return new Promise(function (resolve, reject) {
-    base(opts.base).select().eachPage(function (records, fetchNextPage) {
+    base(opts.base).select({
+      view: 'Grid view'
+    }).eachPage(function (records, fetchNextPage) {
       records.forEach(function (record) {
         result[record.id] = record.fields;
       });
@@ -52056,7 +52058,7 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
-},{"react":5,"react-dom":6,"reactstrap":8,"./../css/style.scss":3,"./airtable":4}],81:[function(require,module,exports) {
+},{"react":5,"react-dom":6,"reactstrap":8,"./../css/style.scss":3,"./airtable":4}],83:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -52226,5 +52228,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[81,2], null)
+},{}]},{},[83,2], null)
 //# sourceMappingURL=/js.47e16791.map

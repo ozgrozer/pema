@@ -17,7 +17,9 @@ const airtableSelect = (opts) => {
 
   return new Promise((resolve, reject) => {
     base(opts.base)
-      .select()
+      .select({
+        view: 'Grid view'
+      })
       .eachPage((records, fetchNextPage) => {
         records.forEach((record) => {
           result[record.id] = record.fields
