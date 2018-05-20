@@ -51621,8 +51621,7 @@ var App = function (_React$Component) {
       newPersonModal: false,
       newPersonFormItems: {},
       personDetailsModal: false,
-      personDetailsFormItems: {},
-      updateDbStructureModal: false
+      personDetailsFormItems: {}
     };
     return _this;
   }
@@ -51643,13 +51642,6 @@ var App = function (_React$Component) {
       });
     }
   }, {
-    key: 'toggleUpdateDbStructureModal',
-    value: function toggleUpdateDbStructureModal() {
-      this.setState({
-        updateDbStructureModal: !this.state.updateDbStructureModal
-      });
-    }
-  }, {
     key: 'formValidation',
     value: function formValidation(callback, e) {
       e.preventDefault();
@@ -51663,11 +51655,6 @@ var App = function (_React$Component) {
       } else {
         form.classList.add('was-validated');
       }
-    }
-  }, {
-    key: 'updateDbStructure',
-    value: function updateDbStructure() {
-      console.log('do something');
     }
   }, {
     key: 'addNewPerson',
@@ -51721,61 +51708,7 @@ var App = function (_React$Component) {
               _react2.default.createElement(
                 'b',
                 { className: 'float-left' },
-                'Persons',
-                _react2.default.createElement('i', {
-                  id: 'gearIcon',
-                  className: 'icon icon-gear-b',
-                  onClick: this.toggleUpdateDbStructureModal.bind(this)
-                }),
-                _react2.default.createElement(
-                  _reactstrap.Modal,
-                  {
-                    isOpen: this.state.updateDbStructureModal,
-                    toggle: this.toggleUpdateDbStructureModal.bind(this)
-                  },
-                  _react2.default.createElement(
-                    'form',
-                    {
-                      noValidate: true,
-                      onSubmit: this.formValidation.bind(this, this.updateDbStructure.bind(this))
-                    },
-                    _react2.default.createElement(
-                      _reactstrap.ModalHeader,
-                      {
-                        toggle: this.toggleUpdateDbStructureModal.bind(this)
-                      },
-                      'DB Structure'
-                    ),
-                    _react2.default.createElement(
-                      _reactstrap.ModalBody,
-                      null,
-                      _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement('textarea', {
-                          required: true,
-                          rows: '8',
-                          placeholder: 'Structure',
-                          className: 'form-control form-control-lg'
-                        }),
-                        _react2.default.createElement(
-                          'div',
-                          { className: 'invalid-feedback' },
-                          'Required field'
-                        )
-                      )
-                    ),
-                    _react2.default.createElement(
-                      _reactstrap.ModalFooter,
-                      null,
-                      _react2.default.createElement(
-                        'button',
-                        { className: 'btn btn-primary btn-lg btn-block' },
-                        'Update DB Structure'
-                      )
-                    )
-                  )
-                )
+                'Persons'
               ),
               _react2.default.createElement(
                 'button',

@@ -12,8 +12,7 @@ class App extends React.Component {
       newPersonModal: false,
       newPersonFormItems: {},
       personDetailsModal: false,
-      personDetailsFormItems: {},
-      updateDbStructureModal: false
+      personDetailsFormItems: {}
     }
   }
 
@@ -30,12 +29,6 @@ class App extends React.Component {
     })
   }
 
-  toggleUpdateDbStructureModal () {
-    this.setState({
-      updateDbStructureModal: !this.state.updateDbStructureModal
-    })
-  }
-
   formValidation (callback, e) {
     e.preventDefault()
     const form = e.target
@@ -48,10 +41,6 @@ class App extends React.Component {
     } else {
       form.classList.add('was-validated')
     }
-  }
-
-  updateDbStructure () {
-    console.log('do something')
   }
 
   addNewPerson () {
@@ -87,47 +76,7 @@ class App extends React.Component {
 
           <div className='card'>
             <div className='card-header'>
-              <b className='float-left'>
-                Persons
-
-                <i
-                  id='gearIcon'
-                  className='icon icon-gear-b'
-                  onClick={this.toggleUpdateDbStructureModal.bind(this)}
-                />
-
-                <Modal
-                  isOpen={this.state.updateDbStructureModal}
-                  toggle={this.toggleUpdateDbStructureModal.bind(this)}
-                >
-                  <form
-                    noValidate
-                    onSubmit={this.formValidation.bind(this, this.updateDbStructure.bind(this))}
-                  >
-                    <ModalHeader
-                      toggle={this.toggleUpdateDbStructureModal.bind(this)}
-                    >
-                      DB Structure
-                    </ModalHeader>
-
-                    <ModalBody>
-                      <div>
-                        <textarea
-                          required
-                          rows='8'
-                          placeholder='Structure'
-                          className='form-control form-control-lg'
-                        />
-                        <div className='invalid-feedback'>Required field</div>
-                      </div>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <button className='btn btn-primary btn-lg btn-block'>Update DB Structure</button>
-                    </ModalFooter>
-                  </form>
-                </Modal>
-              </b>
+              <b className='float-left'>Persons</b>
 
               <button
                 id='openNewPersonModal'
