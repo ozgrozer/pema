@@ -51600,7 +51600,7 @@ var airtableSelect = function airtableSelect(opts) {
 
 var airtableUpdate = function airtableUpdate(opts) {
   return new Promise(function (resolve, reject) {
-    base(opts.base).update(opts.id, opts.values, function (err, record) {
+    base(opts.base).update(opts.id, opts.values, { typecast: true }, function (err, record) {
       if (err) reject(err);
       resolve(record.getId());
     });

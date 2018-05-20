@@ -36,7 +36,7 @@ const airtableSelect = (opts) => {
 const airtableUpdate = (opts) => {
   return new Promise((resolve, reject) => {
     base(opts.base)
-      .update(opts.id, opts.values, (err, record) => {
+      .update(opts.id, opts.values, { typecast: true }, (err, record) => {
         if (err) reject(err)
         resolve(record.getId())
       })
