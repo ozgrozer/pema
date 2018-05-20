@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 import './../css/style.scss'
-import { airtableCreate, airtableSelect, airtableUpdate } from './airtable'
+import { airtableCreate, airtableSelect, airtableUpdate, airtableDestroy } from './airtable'
 
 class App extends React.Component {
   constructor () {
@@ -38,20 +38,6 @@ class App extends React.Component {
       })
   }
 
-  handleNewPersonInput (e) {
-    const item = e.target
-    const newPersonFormItems = this.state.newPersonFormItems
-    newPersonFormItems[item.name] = item.value
-    this.setState({ newPersonFormItems })
-  }
-
-  handlePersonDetailsInput (e) {
-    const item = e.target
-    const personDetailsFormItems = this.state.personDetailsFormItems
-    personDetailsFormItems[item.name] = item.value
-    this.setState({ personDetailsFormItems })
-  }
-
   toggleNewPersonModal () {
     this.setState({
       newPersonModal: !this.state.newPersonModal
@@ -66,6 +52,20 @@ class App extends React.Component {
       selectedPersonId: personId,
       personDetailsModal: !this.state.personDetailsModal
     })
+  }
+
+  handleNewPersonInput (e) {
+    const item = e.target
+    const newPersonFormItems = this.state.newPersonFormItems
+    newPersonFormItems[item.name] = item.value
+    this.setState({ newPersonFormItems })
+  }
+
+  handlePersonDetailsInput (e) {
+    const item = e.target
+    const personDetailsFormItems = this.state.personDetailsFormItems
+    personDetailsFormItems[item.name] = item.value
+    this.setState({ personDetailsFormItems })
   }
 
   formValidation (callback, e) {
@@ -120,6 +120,29 @@ class App extends React.Component {
       })
   }
 
+  deletePerson (personId, e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    airtableDestroy({
+      base: 'persons',
+      id: personId
+    })
+      .then((deletedId) => {
+        const persons = this.state.persons
+        delete persons[deletedId]
+        const totalPerson = Object.keys(persons).length
+
+        this.setState({
+          persons,
+          totalPerson
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   render () {
     let totalPersonDiv
     if (this.state.totalPerson > 1) {
@@ -136,6 +159,12 @@ class App extends React.Component {
           onClick={this.togglePersonDetailsModal.bind(this, personId)}
           className='list-group-item list-group-item-action'>
           {person.Fullname}
+
+          <div
+            className='btn btn-danger btn-sm deletePerson'
+            onClick={this.deletePerson.bind(this, personId)}>
+            Delete
+          </div>
         </button>
       )
     })

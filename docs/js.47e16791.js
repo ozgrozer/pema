@@ -51605,10 +51605,20 @@ var airtableUpdate = function airtableUpdate(opts) {
   });
 };
 
+var airtableDestroy = function airtableDestroy(opts) {
+  return new Promise(function (resolve, reject) {
+    base(opts.base).destroy(opts.id, function (err, deletedRecord) {
+      if (err) reject(err);
+      resolve(deletedRecord.id);
+    });
+  });
+};
+
 module.exports = {
   airtableCreate: airtableCreate,
   airtableSelect: airtableSelect,
-  airtableUpdate: airtableUpdate
+  airtableUpdate: airtableUpdate,
+  airtableDestroy: airtableDestroy
 };
 },{"airtable":7}],2:[function(require,module,exports) {
 'use strict';
@@ -51678,22 +51688,6 @@ var App = function (_React$Component) {
       });
     }
   }, {
-    key: 'handleNewPersonInput',
-    value: function handleNewPersonInput(e) {
-      var item = e.target;
-      var newPersonFormItems = this.state.newPersonFormItems;
-      newPersonFormItems[item.name] = item.value;
-      this.setState({ newPersonFormItems: newPersonFormItems });
-    }
-  }, {
-    key: 'handlePersonDetailsInput',
-    value: function handlePersonDetailsInput(e) {
-      var item = e.target;
-      var personDetailsFormItems = this.state.personDetailsFormItems;
-      personDetailsFormItems[item.name] = item.value;
-      this.setState({ personDetailsFormItems: personDetailsFormItems });
-    }
-  }, {
     key: 'toggleNewPersonModal',
     value: function toggleNewPersonModal() {
       this.setState({
@@ -51710,6 +51704,22 @@ var App = function (_React$Component) {
         selectedPersonId: personId,
         personDetailsModal: !this.state.personDetailsModal
       });
+    }
+  }, {
+    key: 'handleNewPersonInput',
+    value: function handleNewPersonInput(e) {
+      var item = e.target;
+      var newPersonFormItems = this.state.newPersonFormItems;
+      newPersonFormItems[item.name] = item.value;
+      this.setState({ newPersonFormItems: newPersonFormItems });
+    }
+  }, {
+    key: 'handlePersonDetailsInput',
+    value: function handlePersonDetailsInput(e) {
+      var item = e.target;
+      var personDetailsFormItems = this.state.personDetailsFormItems;
+      personDetailsFormItems[item.name] = item.value;
+      this.setState({ personDetailsFormItems: personDetailsFormItems });
     }
   }, {
     key: 'formValidation',
@@ -51767,9 +51777,33 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'deletePerson',
+    value: function deletePerson(personId, e) {
+      var _this5 = this;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      (0, _airtable.airtableDestroy)({
+        base: 'persons',
+        id: personId
+      }).then(function (deletedId) {
+        var persons = _this5.state.persons;
+        delete persons[deletedId];
+        var totalPerson = Object.keys(persons).length;
+
+        _this5.setState({
+          persons: persons,
+          totalPerson: totalPerson
+        });
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       var totalPersonDiv = void 0;
       if (this.state.totalPerson > 1) {
@@ -51789,14 +51823,21 @@ var App = function (_React$Component) {
       }
 
       var personsDiv = Object.keys(this.state.persons).map(function (personId) {
-        var person = _this5.state.persons[personId];
+        var person = _this6.state.persons[personId];
         return _react2.default.createElement(
           'button',
           {
             key: personId,
-            onClick: _this5.togglePersonDetailsModal.bind(_this5, personId),
+            onClick: _this6.togglePersonDetailsModal.bind(_this6, personId),
             className: 'list-group-item list-group-item-action' },
-          person.Fullname
+          person.Fullname,
+          _react2.default.createElement(
+            'div',
+            {
+              className: 'btn btn-danger btn-sm deletePerson',
+              onClick: _this6.deletePerson.bind(_this6, personId) },
+            'Delete'
+          )
         );
       });
 

@@ -41,8 +41,19 @@ const airtableUpdate = (opts) => {
   })
 }
 
+const airtableDestroy = (opts) => {
+  return new Promise((resolve, reject) => {
+    base(opts.base)
+      .destroy(opts.id, (err, deletedRecord) => {
+        if (err) reject(err)
+        resolve(deletedRecord.id)
+      })
+  })
+}
+
 module.exports = {
   airtableCreate,
   airtableSelect,
-  airtableUpdate
+  airtableUpdate,
+  airtableDestroy
 }
