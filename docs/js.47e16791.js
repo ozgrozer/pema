@@ -51887,13 +51887,13 @@ var App = function (_React$Component) {
             className: 'list-group-item list-group-item-action',
             onClick: _this7.togglePersonDetailsModal.bind(_this7, personId) },
           personsFirstFieldValue,
-          _react2.default.createElement(
+          _this7.state.totalPerson > 1 ? _react2.default.createElement(
             'div',
             {
               className: 'btn btn-danger btn-sm deletePerson',
               onClick: _this7.deletePerson.bind(_this7, personId) },
             'Delete'
-          )
+          ) : ''
         );
       });
 
@@ -51985,14 +51985,14 @@ var App = function (_React$Component) {
                 { className: 'float-left' },
                 'Persons'
               ),
-              this.state.totalPerson > 0 ? _react2.default.createElement(
+              _react2.default.createElement(
                 'button',
                 {
                   id: 'openNewPersonModal',
                   className: 'float-right btn btn-primary btn-sm',
                   onClick: this.toggleNewPersonModal.bind(this) },
                 'New'
-              ) : '',
+              ),
               _react2.default.createElement(
                 _reactstrap.Modal,
                 {

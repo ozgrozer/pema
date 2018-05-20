@@ -210,11 +210,13 @@ class App extends React.Component {
           onClick={this.togglePersonDetailsModal.bind(this, personId)}>
           {personsFirstFieldValue}
 
-          <div
-            className='btn btn-danger btn-sm deletePerson'
-            onClick={this.deletePerson.bind(this, personId)}>
-            Delete
-          </div>
+          {this.state.totalPerson > 1 ? (
+            <div
+              className='btn btn-danger btn-sm deletePerson'
+              onClick={this.deletePerson.bind(this, personId)}>
+              Delete
+            </div>
+          ) : ''}
         </button>
       )
     })
@@ -281,14 +283,12 @@ class App extends React.Component {
             <div className='card-header'>
               <b className='float-left'>Persons</b>
 
-              {this.state.totalPerson > 0 ? (
-                <button
-                  id='openNewPersonModal'
-                  className='float-right btn btn-primary btn-sm'
-                  onClick={this.toggleNewPersonModal.bind(this)}>
-                  New
-                </button>
-              ) : ''}
+              <button
+                id='openNewPersonModal'
+                className='float-right btn btn-primary btn-sm'
+                onClick={this.toggleNewPersonModal.bind(this)}>
+                New
+              </button>
 
               <Modal
                 isOpen={this.state.newPersonModal}
