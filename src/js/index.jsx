@@ -68,9 +68,11 @@ class App extends React.Component {
       values: this.state.newPersonFormItems
     })
       .then((getId) => {
-        console.log(getId)
+        const persons = this.state.persons
+        persons[getId] = this.state.newPersonFormItems
 
         this.setState({
+          persons,
           newPersonModal: false,
           newPersonFormItems: {}
         })

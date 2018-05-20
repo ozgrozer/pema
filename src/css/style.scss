@@ -32,12 +32,15 @@ input, textarea, button {
   max-width: 500px;
   margin: 100px auto;
   @media (max-width: #{$xsBreakpoint}) {
-    margin: 50px auto;
+    margin: 20px auto;
   }
 }
 
 .card {
   margin-top: 50px;
+  @media (max-width: #{$xsBreakpoint}) {
+    margin-top: 20px;
+  }
 
   .card-header {
     #gearIcon {

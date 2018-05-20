@@ -51705,9 +51705,11 @@ var App = function (_React$Component) {
         base: 'persons',
         values: this.state.newPersonFormItems
       }).then(function (getId) {
-        console.log(getId);
+        var persons = _this3.state.persons;
+        persons[getId] = _this3.state.newPersonFormItems;
 
         _this3.setState({
+          persons: persons,
           newPersonModal: false,
           newPersonFormItems: {}
         });
