@@ -39,7 +39,7 @@ class App extends React.Component {
     })
   }
 
-  updateDbStructure (e) {
+  formValidation (callback, e) {
     e.preventDefault()
     const form = e.target
     form.classList.add('was-validated')
@@ -47,29 +47,23 @@ class App extends React.Component {
     if (form.checkValidity()) {
       form.classList.remove('was-validated')
 
-      console.log('do something')
+      callback()
     } else {
       form.classList.add('was-validated')
     }
   }
 
-  addNewPerson (e) {
-    e.preventDefault()
-    const form = e.target
-    form.classList.add('was-validated')
+  updateDbStructure () {
+    console.log('do something')
+  }
 
-    if (form.checkValidity()) {
-      form.classList.remove('was-validated')
-
-      console.log('do something')
-      console.log(this.state.newPersonFormItems)
-      this.setState({
-        newPersonModal: false,
-        newPersonFormItems: {}
-      })
-    } else {
-      form.classList.add('was-validated')
-    }
+  addNewPerson () {
+    console.log('do something')
+    console.log(this.state.newPersonFormItems)
+    this.setState({
+      newPersonModal: false,
+      newPersonFormItems: {}
+    })
   }
 
   render () {
@@ -100,7 +94,10 @@ class App extends React.Component {
                   isOpen={this.state.updateDbStructureModal}
                   toggle={this.toggleUpdateDbStructureModal.bind(this)}
                 >
-                  <form noValidate onSubmit={this.updateDbStructure.bind(this)}>
+                  <form
+                    noValidate
+                    onSubmit={this.formValidation.bind(this, this.updateDbStructure.bind(this))}
+                  >
                     <ModalHeader
                       toggle={this.toggleUpdateDbStructureModal.bind(this)}
                     >
@@ -114,10 +111,6 @@ class App extends React.Component {
                           rows='8'
                           placeholder='Structure'
                           className='form-control form-control-lg'
-                          value='{
-                            "ping": "pong",
-                            "lorem": "ipsum"
-                          }'
                         />
                         <div className='invalid-feedback'>Required field</div>
                       </div>
@@ -142,7 +135,10 @@ class App extends React.Component {
                 isOpen={this.state.newPersonModal}
                 toggle={this.toggleNewPersonModal.bind(this)}
               >
-                <form noValidate onSubmit={this.addNewPerson.bind(this)}>
+                <form
+                  noValidate
+                  onSubmit={this.formValidation.bind(this, this.addNewPerson.bind(this))}
+                >
                   <ModalHeader
                     toggle={this.toggleNewPersonModal.bind(this)}
                   >
