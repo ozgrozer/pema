@@ -51659,8 +51659,10 @@ var App = function (_React$Component) {
 
     _this.state = {
       persons: {},
+      filteredPersons: {},
       fields: [],
       totalPerson: 0,
+      searchValue: '',
 
       newPersonModal: false,
       newPersonFormItems: {},
@@ -51690,7 +51692,8 @@ var App = function (_React$Component) {
           _this2.setState({
             fields: fields,
             persons: persons,
-            totalPerson: totalPerson
+            totalPerson: totalPerson,
+            filteredPersons: persons
           });
         }
       }).catch(function (err) {
@@ -51730,6 +51733,13 @@ var App = function (_React$Component) {
       var personDetailsFormItems = this.state.personDetailsFormItems;
       personDetailsFormItems[item.name] = item.value;
       this.setState({ personDetailsFormItems: personDetailsFormItems });
+    }
+  }, {
+    key: 'handleSearchInput',
+    value: function handleSearchInput(e) {
+      var item = e.target;
+      var searchValue = item.value;
+      this.setState({ searchValue: searchValue });
     }
   }, {
     key: 'formValidation',
@@ -51834,13 +51844,15 @@ var App = function (_React$Component) {
 
       var personsDiv = Object.keys(this.state.persons).map(function (personId) {
         var person = _this6.state.persons[personId];
-        return _react2.default.createElement(
+        var personsFirstFieldValue = person[_this6.state.fields[0]];
+
+        var button = _react2.default.createElement(
           'button',
           {
             key: personId,
-            onClick: _this6.togglePersonDetailsModal.bind(_this6, personId),
-            className: 'list-group-item list-group-item-action' },
-          person[_this6.state.fields[0]],
+            className: 'list-group-item list-group-item-action',
+            onClick: _this6.togglePersonDetailsModal.bind(_this6, personId) },
+          personsFirstFieldValue,
           _react2.default.createElement(
             'div',
             {
@@ -51849,6 +51861,14 @@ var App = function (_React$Component) {
             'Delete'
           )
         );
+
+        if (_this6.state.searchValue) {
+          if (personsFirstFieldValue.includes(_this6.state.searchValue)) {
+            return button;
+          }
+        } else {
+          return button;
+        }
       });
 
       var newPersonFormDiv = void 0;
@@ -51983,6 +52003,13 @@ var App = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'card-body' },
+              this.state.totalPerson > 0 ? _react2.default.createElement('input', {
+                type: 'text',
+                id: 'searchForm',
+                placeholder: 'Search',
+                className: 'form-control',
+                value: this.state.searchValue,
+                onChange: this.handleSearchInput.bind(this) }) : '',
               _react2.default.createElement(
                 'div',
                 { className: 'list-group list-group-flush' },
@@ -52036,7 +52063,7 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
-},{"react":5,"react-dom":6,"reactstrap":8,"./../css/style.scss":3,"./airtable":4}],83:[function(require,module,exports) {
+},{"react":5,"react-dom":6,"reactstrap":8,"./../css/style.scss":3,"./airtable":4}],86:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -52206,5 +52233,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[83,2], null)
+},{}]},{},[86,2], null)
 //# sourceMappingURL=/js.47e16791.map

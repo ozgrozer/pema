@@ -10,8 +10,10 @@ class App extends React.Component {
     super()
     this.state = {
       persons: {},
+      filteredPersons: {},
       fields: [],
       totalPerson: 0,
+      searchValue: '',
 
       newPersonModal: false,
       newPersonFormItems: {},
@@ -37,7 +39,8 @@ class App extends React.Component {
           this.setState({
             fields,
             persons,
-            totalPerson
+            totalPerson,
+            filteredPersons: persons
           })
         }
       })
@@ -74,6 +77,12 @@ class App extends React.Component {
     const personDetailsFormItems = this.state.personDetailsFormItems
     personDetailsFormItems[item.name] = item.value
     this.setState({ personDetailsFormItems })
+  }
+
+  handleSearchInput (e) {
+    const item = e.target
+    const searchValue = item.value
+    this.setState({ searchValue })
   }
 
   formValidation (callback, e) {
@@ -161,12 +170,14 @@ class App extends React.Component {
 
     const personsDiv = Object.keys(this.state.persons).map((personId) => {
       const person = this.state.persons[personId]
-      return (
+      const personsFirstFieldValue = person[this.state.fields[0]]
+
+      const button = (
         <button
           key={personId}
-          onClick={this.togglePersonDetailsModal.bind(this, personId)}
-          className='list-group-item list-group-item-action'>
-          {person[this.state.fields[0]]}
+          className='list-group-item list-group-item-action'
+          onClick={this.togglePersonDetailsModal.bind(this, personId)}>
+          {personsFirstFieldValue}
 
           <div
             className='btn btn-danger btn-sm deletePerson'
@@ -175,6 +186,14 @@ class App extends React.Component {
           </div>
         </button>
       )
+
+      if (this.state.searchValue) {
+        if (personsFirstFieldValue.includes(this.state.searchValue)) {
+          return button
+        }
+      } else {
+        return button
+      }
     })
 
     let newPersonFormDiv
@@ -271,6 +290,16 @@ class App extends React.Component {
             </div>
 
             <div className='card-body'>
+              {this.state.totalPerson > 0 ? (
+                <input
+                  type='text'
+                  id='searchForm'
+                  placeholder='Search'
+                  className='form-control'
+                  value={this.state.searchValue}
+                  onChange={this.handleSearchInput.bind(this)} />
+              ) : ''}
+
               <div className='list-group list-group-flush'>
                 {personsDiv}
 

@@ -59,6 +59,13 @@ input, textarea, button {
   .card-body {
     padding: 0;
 
+    #searchForm {
+      border: none;
+      border-radius: 0;
+      padding: 0.75rem 1.25rem;
+      background-color: #eaecef;
+    }
+
     .list-group-item {
       &:hover {
         .deletePerson {
