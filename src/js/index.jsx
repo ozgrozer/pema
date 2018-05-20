@@ -3,18 +3,21 @@ import ReactDOM from 'react-dom'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 import './../css/style.scss'
-import { airtableCreate, airtableSelect } from './airtable'
+import { airtableCreate, airtableSelect, airtableUpdate } from './airtable'
 
 class App extends React.Component {
   constructor () {
     super()
     this.state = {
+      persons: {},
+      totalPerson: 0,
+
       newPersonModal: false,
       newPersonFormItems: {},
+
+      selectedPersonId: 0,
       personDetailsModal: false,
-      personDetailsFormItems: {},
-      persons: {},
-      totalPerson: 0
+      personDetailsFormItems: {}
     }
   }
 
@@ -60,6 +63,7 @@ class App extends React.Component {
 
     this.setState({
       personDetailsFormItems,
+      selectedPersonId: personId,
       personDetailsModal: !this.state.personDetailsModal
     })
   }
@@ -101,7 +105,19 @@ class App extends React.Component {
   }
 
   updatePerson () {
-    console.log('updatePerson')
+    airtableUpdate({
+      base: 'persons',
+      id: this.state.selectedPersonId,
+      values: this.state.personDetailsFormItems
+    })
+      .then((getId) => {
+        this.setState({
+          personDetailsModal: false
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   render () {

@@ -51596,9 +51596,19 @@ var airtableSelect = function airtableSelect(opts) {
   });
 };
 
+var airtableUpdate = function airtableUpdate(opts) {
+  return new Promise(function (resolve, reject) {
+    base(opts.base).update(opts.id, opts.values, function (err, record) {
+      if (err) reject(err);
+      resolve(record.getId());
+    });
+  });
+};
+
 module.exports = {
   airtableCreate: airtableCreate,
-  airtableSelect: airtableSelect
+  airtableSelect: airtableSelect,
+  airtableUpdate: airtableUpdate
 };
 },{"airtable":7}],2:[function(require,module,exports) {
 'use strict';
@@ -51636,12 +51646,15 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
     _this.state = {
+      persons: {},
+      totalPerson: 0,
+
       newPersonModal: false,
       newPersonFormItems: {},
+
+      selectedPersonId: 0,
       personDetailsModal: false,
-      personDetailsFormItems: {},
-      persons: {},
-      totalPerson: 0
+      personDetailsFormItems: {}
     };
     return _this;
   }
@@ -51694,6 +51707,7 @@ var App = function (_React$Component) {
 
       this.setState({
         personDetailsFormItems: personDetailsFormItems,
+        selectedPersonId: personId,
         personDetailsModal: !this.state.personDetailsModal
       });
     }
@@ -51738,12 +51752,24 @@ var App = function (_React$Component) {
   }, {
     key: 'updatePerson',
     value: function updatePerson() {
-      console.log('updatePerson');
+      var _this4 = this;
+
+      (0, _airtable.airtableUpdate)({
+        base: 'persons',
+        id: this.state.selectedPersonId,
+        values: this.state.personDetailsFormItems
+      }).then(function (getId) {
+        _this4.setState({
+          personDetailsModal: false
+        });
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var totalPersonDiv = void 0;
       if (this.state.totalPerson > 1) {
@@ -51763,12 +51789,12 @@ var App = function (_React$Component) {
       }
 
       var personsDiv = Object.keys(this.state.persons).map(function (personId) {
-        var person = _this4.state.persons[personId];
+        var person = _this5.state.persons[personId];
         return _react2.default.createElement(
           'button',
           {
             key: personId,
-            onClick: _this4.togglePersonDetailsModal.bind(_this4, personId),
+            onClick: _this5.togglePersonDetailsModal.bind(_this5, personId),
             className: 'list-group-item list-group-item-action' },
           person.Fullname
         );
