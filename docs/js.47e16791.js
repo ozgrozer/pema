@@ -51583,9 +51583,7 @@ var airtableSelect = function airtableSelect(opts) {
   var result = {};
 
   return new Promise(function (resolve, reject) {
-    base(opts.base).select({
-      maxRecords: 3
-    }).eachPage(function (records, fetchNextPage) {
+    base(opts.base).select().eachPage(function (records, fetchNextPage) {
       records.forEach(function (record) {
         result[record.id] = record.fields;
       });
@@ -51707,9 +51705,11 @@ var App = function (_React$Component) {
       }).then(function (getId) {
         var persons = _this3.state.persons;
         persons[getId] = _this3.state.newPersonFormItems;
+        var totalPerson = Object.keys(persons).length;
 
         _this3.setState({
           persons: persons,
+          totalPerson: totalPerson,
           newPersonModal: false,
           newPersonFormItems: {}
         });

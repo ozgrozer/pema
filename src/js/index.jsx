@@ -70,9 +70,11 @@ class App extends React.Component {
       .then((getId) => {
         const persons = this.state.persons
         persons[getId] = this.state.newPersonFormItems
+        const totalPerson = Object.keys(persons).length
 
         this.setState({
           persons,
+          totalPerson,
           newPersonModal: false,
           newPersonFormItems: {}
         })

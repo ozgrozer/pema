@@ -17,9 +17,7 @@ const airtableSelect = (opts) => {
 
   return new Promise((resolve, reject) => {
     base(opts.base)
-      .select({
-        maxRecords: 3
-      })
+      .select()
       .eachPage((records, fetchNextPage) => {
         records.forEach((record) => {
           result[record.id] = record.fields
