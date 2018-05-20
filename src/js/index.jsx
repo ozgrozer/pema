@@ -10,6 +10,7 @@ class App extends React.Component {
     super()
     this.state = {
       persons: {},
+      fields: [],
       totalPerson: 0,
 
       newPersonModal: false,
@@ -28,10 +29,17 @@ class App extends React.Component {
       .then((persons) => {
         const totalPerson = Object.keys(persons).length
 
-        this.setState({
-          persons,
-          totalPerson
-        })
+        if (totalPerson > 0) {
+          const firstPersonId = Object.keys(persons)[0]
+          const firstPerson = persons[firstPersonId]
+          const fields = Object.keys(firstPerson)
+
+          this.setState({
+            fields,
+            persons,
+            totalPerson
+          })
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -158,7 +166,7 @@ class App extends React.Component {
           key={personId}
           onClick={this.togglePersonDetailsModal.bind(this, personId)}
           className='list-group-item list-group-item-action'>
-          {person.Fullname}
+          {person[this.state.fields[0]]}
 
           <div
             className='btn btn-danger btn-sm deletePerson'
@@ -168,6 +176,52 @@ class App extends React.Component {
         </button>
       )
     })
+
+    let newPersonFormDiv
+    let personDetailsFormDiv
+    if (this.state.fields.length > 0) {
+      newPersonFormDiv = this.state.fields.map((field, i) => {
+        return (
+          <div key={i} className='form-group'>
+            <label
+              htmlFor={`newPersonFormItem${i}`}>
+              {field}
+            </label>
+
+            <input
+              required
+              type='text'
+              name={field}
+              id={`newPersonFormItem${i}`}
+              className='form-control form-control-lg'
+              onChange={this.handleNewPersonInput.bind(this)}
+              value={this.state.newPersonFormItems[field] || ''} />
+            <div className='invalid-feedback'>Required field</div>
+          </div>
+        )
+      })
+
+      personDetailsFormDiv = this.state.fields.map((field, i) => {
+        return (
+          <div key={i} className='form-group'>
+            <label
+              htmlFor={`personDetailsFormItem${i}`}>
+              {field}
+            </label>
+
+            <input
+              required
+              type='text'
+              name={field}
+              id={`personDetailsFormItem${i}`}
+              className='form-control form-control-lg'
+              onChange={this.handlePersonDetailsInput.bind(this)}
+              value={this.state.personDetailsFormItems[field] || ''} />
+            <div className='invalid-feedback'>Required field</div>
+          </div>
+        )
+      })
+    }
 
     return (
       <div className='container'>
@@ -185,12 +239,14 @@ class App extends React.Component {
             <div className='card-header'>
               <b className='float-left'>Persons</b>
 
-              <button
-                id='openNewPersonModal'
-                className='float-right btn btn-primary btn-sm'
-                onClick={this.toggleNewPersonModal.bind(this)}>
-                New
-              </button>
+              {this.state.totalPerson > 0 ? (
+                <button
+                  id='openNewPersonModal'
+                  className='float-right btn btn-primary btn-sm'
+                  onClick={this.toggleNewPersonModal.bind(this)}>
+                  New
+                </button>
+              ) : ''}
 
               <Modal
                 isOpen={this.state.newPersonModal}
@@ -204,31 +260,7 @@ class App extends React.Component {
                   </ModalHeader>
 
                   <ModalBody>
-                    <div className='form-group'>
-                      <label htmlFor='fullname'>Fullname</label>
-                      <input
-                        required
-                        type='text'
-                        id='fullname'
-                        name='Fullname'
-                        className='form-control form-control-lg'
-                        onChange={this.handleNewPersonInput.bind(this)}
-                        value={this.state.newPersonFormItems['Fullname'] || ''} />
-                      <div className='invalid-feedback'>Required field</div>
-                    </div>
-
-                    <div>
-                      <label htmlFor='age'>Age</label>
-                      <input
-                        required
-                        type='text'
-                        id='age'
-                        name='Age'
-                        className='form-control form-control-lg'
-                        onChange={this.handleNewPersonInput.bind(this)}
-                        value={this.state.newPersonFormItems['Age'] || ''} />
-                      <div className='invalid-feedback'>Required field</div>
-                    </div>
+                    {newPersonFormDiv}
                   </ModalBody>
 
                   <ModalFooter>
@@ -250,35 +282,11 @@ class App extends React.Component {
                     onSubmit={this.formValidation.bind(this, this.updatePerson.bind(this))}>
                     <ModalHeader
                       toggle={this.togglePersonDetailsModal.bind(this, '')}>
-                      {this.state.personDetailsFormItems['Fullname'] || ''}
+                      {this.state.personDetailsFormItems[this.state.fields[0]] || ''}
                     </ModalHeader>
 
                     <ModalBody>
-                      <div className='form-group'>
-                        <label htmlFor='fullname'>Fullname</label>
-                        <input
-                          required
-                          type='text'
-                          id='fullname'
-                          name='Fullname'
-                          className='form-control form-control-lg'
-                          onChange={this.handlePersonDetailsInput.bind(this)}
-                          value={this.state.personDetailsFormItems['Fullname'] || ''} />
-                        <div className='invalid-feedback'>Required field</div>
-                      </div>
-
-                      <div>
-                        <label htmlFor='age'>Age</label>
-                        <input
-                          required
-                          type='text'
-                          id='age'
-                          name='Age'
-                          className='form-control form-control-lg'
-                          onChange={this.handlePersonDetailsInput.bind(this)}
-                          value={this.state.personDetailsFormItems['Age'] || ''} />
-                        <div className='invalid-feedback'>Required field</div>
-                      </div>
+                      {personDetailsFormDiv}
                     </ModalBody>
 
                     <ModalFooter>
