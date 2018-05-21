@@ -93,3 +93,15 @@ input, textarea, button {
     }
   }
 }
+
+.modal-body {
+  .form-group {
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      margin-bottom: 2px;
+    }
+  }
+}
