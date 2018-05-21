@@ -236,8 +236,8 @@ class App extends React.Component {
               required
               type='text'
               name={field}
+              className='form-control'
               id={`newPersonFormItem${i}`}
-              className='form-control form-control-lg'
               onChange={this.handleNewPersonInput.bind(this)}
               value={this.state.newPersonFormItems[field] || ''} />
             <div className='invalid-feedback'>Required field</div>
@@ -257,8 +257,8 @@ class App extends React.Component {
               required
               type='text'
               name={field}
+              className='form-control'
               id={`personDetailsFormItem${i}`}
-              className='form-control form-control-lg'
               onChange={this.handlePersonDetailsInput.bind(this)}
               value={this.state.personDetailsFormItems[field] || ''} />
             <div className='invalid-feedback'>Required field</div>
@@ -306,7 +306,7 @@ class App extends React.Component {
                   </ModalBody>
 
                   <ModalFooter>
-                    <button className='btn btn-primary btn-lg btn-block'>Add New Person</button>
+                    <button className='btn btn-primary btn-block'>Add New Person</button>
                   </ModalFooter>
                 </form>
               </Modal>
@@ -340,7 +340,7 @@ class App extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                      <button className='btn btn-primary btn-lg btn-block'>Update Person</button>
+                      <button className='btn btn-primary btn-block'>Update Person</button>
                     </ModalFooter>
                   </form>
                 </Modal>
