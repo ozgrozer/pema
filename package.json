@@ -2,9 +2,9 @@
   "name": "pema",
   "description": "Customizable person management app",
   "scripts": {
-    "start": "parcel ./src/html/index.html --out-dir ./docs --public-url / --port 1114",
+    "start": "parcel ./src/html/index.html --out-dir ./dist --public-url / --port 1114",
     "prebuild": "cd docs && pwd && find . ! -name 'CNAME' -type f -exec rm -f {} +",
-    "build": "parcel build ./src/html/index.html --out-dir ./docs --public-url / --no-source-maps"
+    "build": "parcel build ./src/html/index.html --out-dir ./docs --public-url /pema/ --no-source-maps"
   },
   "license": "MIT",
   "dependencies": {
