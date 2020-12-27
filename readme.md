@@ -2,7 +2,9 @@
 
 Customizable person management app
 
-[https://pema.gq/](https://pema.gq/)
+[https://ozgrozer.github.io/pema/](https://ozgrozer.github.io/pema/)
+
+<img src="./preview/1.jpg" alt="" width="400" />
 
 ## Usage
 
